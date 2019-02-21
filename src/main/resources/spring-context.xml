@@ -12,10 +12,15 @@
 
     <bean id="csvParser" class="ru.otus.service.impl.CsvParser">
         <constructor-arg name="separator" value="${separator:,}"/>
+        <constructor-arg name="csvFile" value="${csv.file:questions.csv}"/>
     </bean>
 
     <bean id="testService" class="ru.otus.service.TestService">
         <constructor-arg name="csvParser" ref="csvParser"/>
+        <constructor-arg name="testEngine" ref="testEngine"/>
+    </bean>
+
+    <bean id="testEngine" class="ru.otus.service.TestEngine">
         <constructor-arg name="userService" ref="userService"/>
     </bean>
 
