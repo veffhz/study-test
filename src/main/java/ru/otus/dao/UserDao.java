@@ -16,4 +16,5 @@ public class UserDao {
     public String getPrettyUserName() {
         return String.format("%s %s", user.getFirstName(), user.getLastName());
     }
+
 }
