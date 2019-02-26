@@ -30,7 +30,7 @@ public class TestEngine {
         sendFeedBack(userName, result);
     }
 
-    private void sendFeedBack(String userName, Map<Question, Boolean> result) {
+    void sendFeedBack(String userName, Map<Question, Boolean> result) {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("\nDear user %s!\n", userName));
         sb.append("\nResult yor test:\n");
