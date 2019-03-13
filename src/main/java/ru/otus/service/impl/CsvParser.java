@@ -31,26 +31,29 @@ public class CsvParser implements Parser<List<Question>> {
         try {
             URI uri = this.getClass().getResource(csvFile).toURI();
             fileLines = Files.readAllLines(Paths.get(uri));
+
+            //skip first line
+            for (int i = 1; i < fileLines.size(); i++) {
+                String line = fileLines.get(i);
+                String[] splitedText = line.split(separator);
+                ArrayList<String> columnList = new ArrayList<>(Arrays.asList(splitedText));
+                String text = columnList.get(0);
+                String correctAnswer = columnList.get(1);
+                String answer1 = columnList.get(2);
+                String answer2 = columnList.get(3);
+                String answer3 = columnList.get(4);
+                String answer4 = columnList.get(5);
+                String answer5 = columnList.get(6);
+                Question question = new Question(text, correctAnswer,
+                        Arrays.asList(answer1, answer2, answer3, answer4, answer5));
+                questions.add(question);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            log.warning(e.getMessage());
+            throw new ParseException(e);
         } catch (URISyntaxException | IOException e) {
             log.severe(e.getMessage());
             throw new ParseException(e);
-        }
-
-        //skip first line
-        for (int i = 1; i < fileLines.size(); i++) {
-            String line = fileLines.get(i);
-            String[] splitedText = line.split(separator);
-            ArrayList<String> columnList = new ArrayList<>(Arrays.asList(splitedText));
-            String text = columnList.get(0);
-            String correctAnswer = columnList.get(1);
-            String answer1 = columnList.get(2);
-            String answer2 = columnList.get(3);
-            String answer3 = columnList.get(4);
-            String answer4 = columnList.get(5);
-            String answer5 = columnList.get(6);
-            Question question = new Question(text, correctAnswer,
-                    Arrays.asList(answer1, answer2, answer3, answer4, answer5));
-            questions.add(question);
         }
         return questions;
     }
