@@ -1,17 +1,17 @@
 package ru.otus.service.impl;
 
 import ru.otus.dao.UserDao;
-import ru.otus.service.IUserService;
+import ru.otus.service.UserService;
 import ru.otus.service.InteractionService;
 
 import java.util.List;
 
-public class UserService implements IUserService {
+public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final InteractionService interactionService;
 
-    public UserService(UserDao userDao, InteractionService interactionService) {
+    public UserServiceImpl(UserDao userDao, InteractionService interactionService) {
         this.userDao = userDao;
         this.interactionService = interactionService;
     }

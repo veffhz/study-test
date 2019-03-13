@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 import ru.otus.dao.UserDao;
 import ru.otus.domain.Question;
 import ru.otus.service.impl.CsvParser;
-import ru.otus.service.impl.UserService;
+import ru.otus.service.impl.UserServiceImpl;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ class TestEngineTest {
         doNothing().when(userDaoSpy).setNewUser(any(String.class), any(String.class));
         when(userDaoSpy.getPrettyUserName()).thenReturn("test test");
 
-        IUserService userServiceSpy = spy(new UserService(userDaoSpy, interactionServiceSpy));
+        UserService userServiceSpy = spy(new UserServiceImpl(userDaoSpy, interactionServiceSpy));
 
         TestEngine engineSpy = spy(new TestEngine(userServiceSpy));
 
