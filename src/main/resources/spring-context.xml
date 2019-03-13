@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>application.properties</value>
+        </property>
+    </bean>
+
+    <bean id="csvParser" class="ru.otus.service.impl.CsvParser">
+        <constructor-arg name="separator" value="${separator:,}"/>
+        <constructor-arg name="csvFile" value="${csv.file:questions.csv}"/>
+    </bean>
+
+    <bean id="testService" class="ru.otus.service.TestService">
+        <constructor-arg name="csvParser" ref="csvParser"/>
+        <constructor-arg name="testEngine" ref="testEngine"/>
+    </bean>
+
+    <bean id="testEngine" class="ru.otus.service.TestEngine">
+        <constructor-arg name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="consoleInteractionService" class="ru.otus.service.impl.ConsoleInteractionService"/>
+    <bean id="userDao" class="ru.otus.dao.UserDao"/>
+
+    <bean id="userService" class="ru.otus.service.impl.UserService">
+        <constructor-arg name="userDao" ref="userDao"/>
+        <constructor-arg name="interactionService" ref="consoleInteractionService"/>
+    </bean>
+
+</beans>
