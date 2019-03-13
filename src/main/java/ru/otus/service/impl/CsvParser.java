@@ -2,6 +2,9 @@ package ru.otus.service.impl;
 
 import lombok.extern.java.Log;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import ru.otus.domain.Question;
 import ru.otus.exception.ParseException;
 import ru.otus.service.Parser;
@@ -14,12 +17,15 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @Log
+@Service
 public class CsvParser implements Parser<List<Question>> {
 
     private final String separator;
     private final String csvFile;
 
-    public CsvParser(String separator, String csvFile) {
+    @Autowired
+    public CsvParser(@Value("${separator}") String separator,
+                     @Value("${csv.file}") String csvFile) {
         this.separator = separator;
         this.csvFile = csvFile;
     }

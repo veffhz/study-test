@@ -4,12 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
+import ru.otus.TestUtils;
 import ru.otus.dao.UserDao;
 import ru.otus.domain.Question;
 import ru.otus.service.impl.CsvParser;
 import ru.otus.service.impl.UserServiceImpl;
 
 import java.util.List;
+import java.util.Properties;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.*;
 class TestEngineTest {
 
     @Test
-    void test1() {
+    void test1() throws Exception {
         UserDao userDaoSpy = Mockito.mock(UserDao.class);
         InteractionService interactionServiceSpy = Mockito.mock(InteractionService.class);
 
@@ -31,7 +33,9 @@ class TestEngineTest {
 
         TestEngine engineSpy = spy(new TestEngine(userServiceSpy));
 
-        Parser<List<Question>> parser = new CsvParser(";", "/questions.csv");
+        Properties properties = TestUtils.getProperties();
+        Parser<List<Question>> parser = new CsvParser(properties.getProperty("separator"),
+                properties.getProperty("csv.file"));
         List<Question> questions = parser.parse();
 
         engineSpy.test(questions);
@@ -44,4 +48,5 @@ class TestEngineTest {
 
         verify(engineSpy, times(1)).sendFeedBack(any(String.class), ArgumentMatchers.any());
     }
+
 }

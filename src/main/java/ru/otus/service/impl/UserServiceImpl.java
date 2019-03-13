@@ -1,16 +1,20 @@
 package ru.otus.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.otus.dao.UserDao;
 import ru.otus.service.UserService;
 import ru.otus.service.InteractionService;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final InteractionService interactionService;
 
+    @Autowired
     public UserServiceImpl(UserDao userDao, InteractionService interactionService) {
         this.userDao = userDao;
         this.interactionService = interactionService;

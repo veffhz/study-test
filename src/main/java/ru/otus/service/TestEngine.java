@@ -1,15 +1,19 @@
 package ru.otus.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.otus.domain.Question;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class TestEngine {
     private final UserService userService;
 
-    public TestEngine(UserService userService) {
+    @Autowired
+    TestEngine(UserService userService) {
         this.userService = userService;
     }
 

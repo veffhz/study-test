@@ -2,10 +2,12 @@ package ru.otus.dao;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 import ru.otus.domain.User;
 
 @Getter
 @Setter
+@Component
 public class UserDao {
     private User user;
 
