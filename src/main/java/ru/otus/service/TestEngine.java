@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public class TestEngine {
-    private final IUserService userService;
+    private final UserService userService;
 
-    public TestEngine(IUserService userService) {
+    public TestEngine(UserService userService) {
         this.userService = userService;
     }
 

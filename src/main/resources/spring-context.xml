@@ -27,7 +27,7 @@
     <bean id="consoleInteractionService" class="ru.otus.service.impl.ConsoleInteractionService"/>
     <bean id="userDao" class="ru.otus.dao.UserDao"/>
 
-    <bean id="userService" class="ru.otus.service.impl.UserService">
+    <bean id="userService" class="ru.otus.service.impl.UserServiceImpl">
         <constructor-arg name="userDao" ref="userDao"/>
         <constructor-arg name="interactionService" ref="consoleInteractionService"/>
     </bean>

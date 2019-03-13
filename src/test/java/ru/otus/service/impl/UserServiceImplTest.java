@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.otus.dao.UserDao;
-import ru.otus.service.IUserService;
+import ru.otus.service.UserService;
 import ru.otus.service.InteractionService;
 
 import java.util.Arrays;
@@ -13,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class UserServiceTest {
+class UserServiceImplTest {
 
     private UserDao userDaoSpy;
     private InteractionService interactionServiceSpy;
-    private IUserService userService;
+    private UserService userService;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +30,7 @@ class UserServiceTest {
         doNothing().when(userDaoSpy).setNewUser(any(String.class), any(String.class));
         when(userDaoSpy.getPrettyUserName()).thenReturn("test test");
 
-        userService = new UserService(userDaoSpy, interactionServiceSpy);
+        userService = new UserServiceImpl(userDaoSpy, interactionServiceSpy);
     }
 
     @Test
