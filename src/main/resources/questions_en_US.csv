@@ -1,6 +1,6 @@
-Question;CorrectAnswerNo;Choice1;Choice2;Choice3;Choice4;Choice5
+CorrectAnswerNo;Choice1;Choice2;Choice3;Choice4;Choice5
 Which is the colour of sky?;blue;blue;red;orange;purple;violet
-What is java;language;car;language;tea;beer;country
-What is IBM;company;school;fast-food;company;asteroid;rock-band
+What is java?;language;car;language;tea;beer;country
+What is IBM?;company;school;fast-food;company;asteroid;rock-band
 Who is author of winnie the pooh?;Milne;I'm;Tolstoy;Cobain;Milne;Grimm
 Why people loves mac?;comfortably;because;stylishly;people love linux;i don't know;comfortably

@@ -2,6 +2,9 @@ package ru.otus.service.impl;
 
 import lombok.extern.java.Log;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import ru.otus.domain.Question;
 import ru.otus.exception.ParseException;
 import ru.otus.service.Parser;
@@ -14,14 +17,20 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @Log
+@Service
 public class CsvParser implements Parser<List<Question>> {
 
     private final String separator;
     private final String csvFile;
+    private final MessageSourceWrapperService messageSourceWrapper;
 
-    public CsvParser(String separator, String csvFile) {
+    @Autowired
+    public CsvParser(@Value("${separator}") String separator,
+                     @Value("${csv.file}") String csvFile,
+                     MessageSourceWrapperService messageSourceWrapper) {
         this.separator = separator;
         this.csvFile = csvFile;
+        this.messageSourceWrapper = messageSourceWrapper;
     }
 
     public List<Question> parse() {
@@ -29,7 +38,9 @@ public class CsvParser implements Parser<List<Question>> {
         List<String> fileLines;
 
         try {
-            URI uri = this.getClass().getResource(csvFile).toURI();
+            String localeCsvFile = csvFile.replace("_.",
+                    String.format("_%s.", messageSourceWrapper.getLocale()));
+            URI uri = this.getClass().getResource(localeCsvFile).toURI();
             fileLines = Files.readAllLines(Paths.get(uri));
 
             //skip first line

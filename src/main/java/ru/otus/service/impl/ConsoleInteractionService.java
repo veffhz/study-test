@@ -1,9 +1,11 @@
 package ru.otus.service.impl;
 
+import org.springframework.stereotype.Service;
 import ru.otus.service.InteractionService;
 
 import java.util.Scanner;
 
+@Service
 public class ConsoleInteractionService implements InteractionService {
 
     @Override

@@ -1,26 +1,33 @@
 package ru.otus.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ru.otus.dao.UserDao;
 import ru.otus.service.UserService;
 import ru.otus.service.InteractionService;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final InteractionService interactionService;
+    private final MessageSourceWrapperService messageSourceWrapper;
 
-    public UserServiceImpl(UserDao userDao, InteractionService interactionService) {
+    @Autowired
+    public UserServiceImpl(UserDao userDao, InteractionService interactionService, MessageSourceWrapperService messageSourceWrapper) {
         this.userDao = userDao;
         this.interactionService = interactionService;
+        this.messageSourceWrapper = messageSourceWrapper;
     }
 
     public void askUserName() {
-        interactionService.write("Input your first name:");
+        interactionService.write(messageSourceWrapper.getMessage("question.firstname"));
         String firstName = interactionService.read();
 
-        interactionService.write("Input your last name:");
+        interactionService.write(messageSourceWrapper.getMessage("question.lastname"));
         String lastName = interactionService.read();
 
         userDao.setNewUser(firstName, lastName);
