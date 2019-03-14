@@ -2,6 +2,7 @@ package ru.otus.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ru.otus.dao.UserDao;
 import ru.otus.service.UserService;
 import ru.otus.service.InteractionService;
@@ -13,18 +14,20 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final InteractionService interactionService;
+    private final MessageAdapter adapter;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, InteractionService interactionService) {
+    public UserServiceImpl(UserDao userDao, InteractionService interactionService, MessageAdapter adapter) {
         this.userDao = userDao;
         this.interactionService = interactionService;
+        this.adapter = adapter;
     }
 
     public void askUserName() {
-        interactionService.write("Input your first name:");
+        interactionService.write(adapter.getMessage("question.firstname"));
         String firstName = interactionService.read();
 
-        interactionService.write("Input your last name:");
+        interactionService.write(adapter.getMessage("question.lastname"));
         String lastName = interactionService.read();
 
         userDao.setNewUser(firstName, lastName);

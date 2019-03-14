@@ -30,7 +30,10 @@ class UserServiceImplTest {
         doNothing().when(userDaoSpy).setNewUser(any(String.class), any(String.class));
         when(userDaoSpy.getPrettyUserName()).thenReturn("test test");
 
-        userService = new UserServiceImpl(userDaoSpy, interactionServiceSpy);
+        MessageAdapter adapter = Mockito.mock(MessageAdapter.class);
+        when(adapter.getMessage(any(String.class))).thenReturn("message");
+
+        userService = new UserServiceImpl(userDaoSpy, interactionServiceSpy, adapter);
     }
 
     @Test

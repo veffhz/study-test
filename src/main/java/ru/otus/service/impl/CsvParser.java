@@ -22,12 +22,15 @@ public class CsvParser implements Parser<List<Question>> {
 
     private final String separator;
     private final String csvFile;
+    private final MessageAdapter adapter;
 
     @Autowired
     public CsvParser(@Value("${separator}") String separator,
-                     @Value("${csv.file}") String csvFile) {
+                     @Value("${csv.file}") String csvFile,
+                     MessageAdapter adapter) {
         this.separator = separator;
         this.csvFile = csvFile;
+        this.adapter = adapter;
     }
 
     public List<Question> parse() {
@@ -43,13 +46,13 @@ public class CsvParser implements Parser<List<Question>> {
                 String line = fileLines.get(i);
                 String[] splitedText = line.split(separator);
                 ArrayList<String> columnList = new ArrayList<>(Arrays.asList(splitedText));
-                String text = columnList.get(0);
-                String correctAnswer = columnList.get(1);
-                String answer1 = columnList.get(2);
-                String answer2 = columnList.get(3);
-                String answer3 = columnList.get(4);
-                String answer4 = columnList.get(5);
-                String answer5 = columnList.get(6);
+                String text = adapter.getMessage(String.format("question%d", i));
+                String correctAnswer = columnList.get(0);
+                String answer1 = columnList.get(1);
+                String answer2 = columnList.get(2);
+                String answer3 = columnList.get(3);
+                String answer4 = columnList.get(4);
+                String answer5 = columnList.get(5);
                 Question question = new Question(text, correctAnswer,
                         Arrays.asList(answer1, answer2, answer3, answer4, answer5));
                 questions.add(question);

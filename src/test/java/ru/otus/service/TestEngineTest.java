@@ -8,6 +8,7 @@ import ru.otus.TestUtils;
 import ru.otus.dao.UserDao;
 import ru.otus.domain.Question;
 import ru.otus.service.impl.CsvParser;
+import ru.otus.service.impl.MessageAdapter;
 import ru.otus.service.impl.UserServiceImpl;
 
 import java.util.List;
@@ -29,13 +30,16 @@ class TestEngineTest {
         doNothing().when(userDaoSpy).setNewUser(any(String.class), any(String.class));
         when(userDaoSpy.getPrettyUserName()).thenReturn("test test");
 
-        UserService userServiceSpy = spy(new UserServiceImpl(userDaoSpy, interactionServiceSpy));
+        MessageAdapter adapter = Mockito.mock(MessageAdapter.class);
+        when(adapter.getMessage(any(String.class))).thenReturn("message");
 
-        TestEngine engineSpy = spy(new TestEngine(userServiceSpy));
+        UserService userServiceSpy = spy(new UserServiceImpl(userDaoSpy, interactionServiceSpy, adapter));
+
+        TestEngine engineSpy = spy(new TestEngine(userServiceSpy, adapter));
 
         Properties properties = TestUtils.getProperties();
         Parser<List<Question>> parser = new CsvParser(properties.getProperty("separator"),
-                properties.getProperty("csv.file"));
+                properties.getProperty("csv.file"), adapter);
         List<Question> questions = parser.parse();
 
         engineSpy.test(questions);
