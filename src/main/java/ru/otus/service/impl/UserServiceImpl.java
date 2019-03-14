@@ -14,20 +14,20 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final InteractionService interactionService;
-    private final MessageAdapter adapter;
+    private final MessageSourceWrapperService messageSourceWrapper;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, InteractionService interactionService, MessageAdapter adapter) {
+    public UserServiceImpl(UserDao userDao, InteractionService interactionService, MessageSourceWrapperService messageSourceWrapper) {
         this.userDao = userDao;
         this.interactionService = interactionService;
-        this.adapter = adapter;
+        this.messageSourceWrapper = messageSourceWrapper;
     }
 
     public void askUserName() {
-        interactionService.write(adapter.getMessage("question.firstname"));
+        interactionService.write(messageSourceWrapper.getMessage("question.firstname"));
         String firstName = interactionService.read();
 
-        interactionService.write(adapter.getMessage("question.lastname"));
+        interactionService.write(messageSourceWrapper.getMessage("question.lastname"));
         String lastName = interactionService.read();
 
         userDao.setNewUser(firstName, lastName);

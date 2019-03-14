@@ -20,7 +20,7 @@ class CsvParserTest {
 
         Properties properties = TestUtils.getProperties();
 
-        MessageAdapter adapter = Mockito.mock(MessageAdapter.class);
+        MessageSourceWrapperService adapter = Mockito.mock(MessageSourceWrapperService.class);
         when(adapter.getMessage(any(String.class))).thenReturn("message");
 
         Parser<List<Question>> parser = new CsvParser(properties.getProperty("separator"),

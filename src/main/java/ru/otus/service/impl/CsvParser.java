@@ -22,15 +22,15 @@ public class CsvParser implements Parser<List<Question>> {
 
     private final String separator;
     private final String csvFile;
-    private final MessageAdapter adapter;
+    private final MessageSourceWrapperService messageSourceWrapper;
 
     @Autowired
     public CsvParser(@Value("${separator}") String separator,
                      @Value("${csv.file}") String csvFile,
-                     MessageAdapter adapter) {
+                     MessageSourceWrapperService messageSourceWrapper) {
         this.separator = separator;
         this.csvFile = csvFile;
-        this.adapter = adapter;
+        this.messageSourceWrapper = messageSourceWrapper;
     }
 
     public List<Question> parse() {
@@ -38,7 +38,9 @@ public class CsvParser implements Parser<List<Question>> {
         List<String> fileLines;
 
         try {
-            URI uri = this.getClass().getResource(csvFile).toURI();
+            String localeCsvFile = csvFile.replace("_.",
+                    String.format("_%s.", messageSourceWrapper.getLocale()));
+            URI uri = this.getClass().getResource(localeCsvFile).toURI();
             fileLines = Files.readAllLines(Paths.get(uri));
 
             //skip first line
@@ -46,13 +48,13 @@ public class CsvParser implements Parser<List<Question>> {
                 String line = fileLines.get(i);
                 String[] splitedText = line.split(separator);
                 ArrayList<String> columnList = new ArrayList<>(Arrays.asList(splitedText));
-                String text = adapter.getMessage(String.format("question%d", i));
-                String correctAnswer = columnList.get(0);
-                String answer1 = columnList.get(1);
-                String answer2 = columnList.get(2);
-                String answer3 = columnList.get(3);
-                String answer4 = columnList.get(4);
-                String answer5 = columnList.get(5);
+                String text = columnList.get(0);
+                String correctAnswer = columnList.get(1);
+                String answer1 = columnList.get(2);
+                String answer2 = columnList.get(3);
+                String answer3 = columnList.get(4);
+                String answer4 = columnList.get(5);
+                String answer5 = columnList.get(6);
                 Question question = new Question(text, correctAnswer,
                         Arrays.asList(answer1, answer2, answer3, answer4, answer5));
                 questions.add(question);

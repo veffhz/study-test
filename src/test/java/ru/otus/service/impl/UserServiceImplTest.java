@@ -2,7 +2,11 @@ package ru.otus.service.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import ru.otus.dao.UserDao;
 import ru.otus.service.UserService;
 import ru.otus.service.InteractionService;
@@ -13,50 +17,54 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class UserServiceImplTest {
 
-    private UserDao userDaoSpy;
-    private InteractionService interactionServiceSpy;
+    @Mock
+    private UserDao userDao;
+
+    @Mock
+    private InteractionService interactionService;
+
+    @Mock
     private UserService userService;
+
+    @Mock
+    private MessageSourceWrapperService adapter;
 
     @BeforeEach
     void setUp() {
-        userDaoSpy = Mockito.mock(UserDao.class);
-        interactionServiceSpy = Mockito.mock(InteractionService.class);
-
-        doNothing().when(interactionServiceSpy).write(any(String.class));
-        when(interactionServiceSpy.read()).thenReturn("test");
-
-        doNothing().when(userDaoSpy).setNewUser(any(String.class), any(String.class));
-        when(userDaoSpy.getPrettyUserName()).thenReturn("test test");
-
-        MessageAdapter adapter = Mockito.mock(MessageAdapter.class);
+        doNothing().when(interactionService).write(any(String.class));
+        when(interactionService.read()).thenReturn("test");
+        doNothing().when(userDao).setNewUser(any(String.class), any(String.class));
+        when(userDao.getPrettyUserName()).thenReturn("test test");
         when(adapter.getMessage(any(String.class))).thenReturn("message");
 
-        userService = new UserServiceImpl(userDaoSpy, interactionServiceSpy, adapter);
+        userService = new UserServiceImpl(userDao, interactionService, adapter);
     }
 
     @Test
     void askUserName() {
         userService.askUserName();
 
-        verify(interactionServiceSpy, times(2)).write(any(String.class));
-        verify(interactionServiceSpy, times(2)).read();
-        verify(userDaoSpy, times(1)).setNewUser(any(String.class), any(String.class));
+        verify(interactionService, times(2)).write(any(String.class));
+        verify(interactionService, times(2)).read();
+        verify(userDao, times(1)).setNewUser(any(String.class), any(String.class));
     }
 
     @Test
     void askUser() {
         String answer = userService.askUser("question", Arrays.asList("one", "two", "three"));
 
-        verify(interactionServiceSpy, times(4)).write(any(String.class));
+        verify(interactionService, times(4)).write(any(String.class));
         assertEquals(answer, "test");
     }
 
     @Test
     void sayToUser() {
         userService.sayToUser("test");
-        verify(interactionServiceSpy, times(1)).write(any(String.class));
+        verify(interactionService, times(1)).write(any(String.class));
     }
 
     @Test

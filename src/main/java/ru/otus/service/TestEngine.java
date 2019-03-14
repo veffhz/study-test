@@ -1,26 +1,24 @@
 package ru.otus.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.otus.domain.Question;
-import ru.otus.service.impl.MessageAdapter;
+import ru.otus.service.impl.MessageSourceWrapperService;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @Service
 public class TestEngine {
 
     private final UserService userService;
-    private final MessageAdapter adapter;
+    private final MessageSourceWrapperService messageSourceWrapper;
 
     @Autowired
-    TestEngine(UserService userService, MessageAdapter adapter) {
+    TestEngine(UserService userService, MessageSourceWrapperService messageSourceWrapper) {
         this.userService = userService;
-        this.adapter = adapter;
+        this.messageSourceWrapper = messageSourceWrapper;
     }
 
     void test(List<Question> questions) {
@@ -42,17 +40,17 @@ public class TestEngine {
 
     void sendFeedBack(String userName, Map<Question, Boolean> result) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("\n%s %s!\n", adapter.getMessage("greeting"), userName));
-        sb.append(String.format("\n%s:\n", adapter.getMessage("result")));
+        sb.append(String.format("\n%s %s!\n", messageSourceWrapper.getMessage("greeting"), userName));
+        sb.append(String.format("\n%s:\n", messageSourceWrapper.getMessage("result")));
 
         for (Map.Entry<Question, Boolean> entry : result.entrySet()) {
-            String ok = adapter.getMessage("ok.msg");
-            String fail = adapter.getMessage("fail.msg");
-            sb.append(String.format("%s %s - %s\n", adapter.getMessage("question"),
+            String ok = messageSourceWrapper.getMessage("ok.msg");
+            String fail = messageSourceWrapper.getMessage("fail.msg");
+            sb.append(String.format("%s %s - %s\n", messageSourceWrapper.getMessage("question"),
                     entry.getKey().getText(), entry.getValue() ? ok : fail));
         }
 
-        sb.append(String.format("\n%s, %s!\n", adapter.getMessage("parting"),userName));
+        sb.append(String.format("\n%s, %s!\n", messageSourceWrapper.getMessage("parting"),userName));
 
         userService.sayToUser(sb.toString());
     }
