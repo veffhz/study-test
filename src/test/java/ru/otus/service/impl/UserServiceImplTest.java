@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+
 import ru.otus.dao.UserDao;
 import ru.otus.service.InteractionService;
 import ru.otus.service.UserService;
