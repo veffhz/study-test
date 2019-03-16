@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 
 import ru.otus.domain.Question;
@@ -18,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 @TestPropertySource("classpath:application-test.yml")
 class CsvParserTest {
 
-    @MockBean
+    @Autowired
     private MessageSourceWrapperService adapter;
 
     @Autowired

@@ -29,14 +29,14 @@ class TestEngineTest {
     @MockBean
     private InteractionService interactionServiceSpy;
 
-    @MockBean
-    private MessageSourceWrapperService adapter;
-
     @SpyBean
     private UserService userServiceSpy;
 
     @SpyBean
     private TestEngine engineSpy;
+
+    @Autowired
+    private MessageSourceWrapperService adapter;
 
     @Autowired
     private Parser<List<Question>> parser;

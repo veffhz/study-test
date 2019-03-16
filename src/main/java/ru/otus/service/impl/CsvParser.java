@@ -3,8 +3,9 @@ package ru.otus.service.impl;
 import lombok.extern.java.Log;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import ru.otus.AppProperties;
 import ru.otus.domain.Question;
 import ru.otus.exception.ParseException;
 import ru.otus.service.Parser;
@@ -25,11 +26,9 @@ public class CsvParser implements Parser<List<Question>> {
     private final MessageSourceWrapperService messageSourceWrapper;
 
     @Autowired
-    public CsvParser(@Value("${separator}") String separator,
-                     @Value("${csv.file}") String csvFile,
-                     MessageSourceWrapperService messageSourceWrapper) {
-        this.separator = separator;
-        this.csvFile = csvFile;
+    public CsvParser(AppProperties properties, MessageSourceWrapperService messageSourceWrapper) {
+        this.separator = properties.getSeparator();
+        this.csvFile = properties.getCsvFile();
         this.messageSourceWrapper = messageSourceWrapper;
     }
 

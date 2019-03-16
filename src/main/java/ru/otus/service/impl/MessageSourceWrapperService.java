@@ -1,9 +1,10 @@
 package ru.otus.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+
+import ru.otus.AppProperties;
 
 import static org.springframework.util.StringUtils.parseLocaleString;
 
@@ -14,9 +15,9 @@ public class MessageSourceWrapperService {
     private final String locale;
 
     @Autowired
-    public MessageSourceWrapperService(MessageSource messageSource, @Value("${locale}") String locale) {
+    public MessageSourceWrapperService(MessageSource messageSource, AppProperties properties) {
         this.messageSource = messageSource;
-        this.locale = locale;
+        this.locale = properties.getLocale();
     }
 
     public String getMessage(String key) {
