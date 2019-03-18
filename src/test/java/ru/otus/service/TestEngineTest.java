@@ -5,11 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.TestPropertySource;
 
+import ru.otus.AppProperties;
 import ru.otus.dao.UserDao;
 import ru.otus.domain.Question;
 import ru.otus.service.impl.MessageSourceWrapperService;
@@ -19,7 +21,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 @TestPropertySource("classpath:application-test.yml")
 class TestEngineTest {
 

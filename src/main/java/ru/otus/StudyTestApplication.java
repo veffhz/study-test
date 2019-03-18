@@ -22,11 +22,7 @@ public class StudyTestApplication {
 	}
 
 	public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext =
-                SpringApplication.run(StudyTestApplication.class, args);
-
-        TestService testService = applicationContext.getBean(TestService.class);
-        testService.runTest();
-    }
+		SpringApplication.run(StudyTestApplication.class, args);
+	}
 
 }

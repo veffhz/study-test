@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 @TestPropertySource("classpath:application-test.yml")
 class CsvParserTest {
 

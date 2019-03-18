@@ -10,5 +10,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AppProperties {
     private String separator;
     private String csvFile;
-    private String locale;
 }

@@ -1,3 +1,7 @@
 separator: ;
 csv-file: /questions_.csv
-locale: en_US
+spring:
+  shell:
+    command:
+      exit:
+        enabled: true
